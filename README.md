@@ -77,4 +77,22 @@ def set_cell_font(cell, size, bold=False, color=RGBColor(0,0,0), align=PP_ALIGN.
 cell = table.cell(0, 0)
 set_cell_font(cell, size=12, bold=True, color=RGBColor(255,0,0), align=PP_ALIGN.CENTER)
 
+from pptx import Presentation
+
+# 加载含有预设样式的PPT模板
+prs = Presentation('template.pptx')
+
+# 定位到含有预设表格样式的幻灯片
+slide = prs.slides[0]
+
+# 假设你的表格是幻灯片中的第一个形状
+table = slide.shapes[0].table
+
+# 填充表格内容
+for row in table.rows:
+    for cell in row.cells:
+        cell.text = '你的内容'
+
+# 保存PPT文档
+prs.save('filled_presentation.pptx')
 
