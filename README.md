@@ -21,3 +21,61 @@ Anomaly-transformer
 DATN
 TransAD
 
+永豐:
+from pptx import Presentation
+from pptx.util import Pt
+
+# 创建或加载PPT文档
+prs = Presentation()
+
+# 添加一张幻灯片
+slide = prs.slides.add_slide(prs.slide_layouts[5])
+
+# 添加一个文本框
+txBox = slide.shapes.add_textbox(left=Inches(2), top=Inches(2), width=Inches(4), height=Inches(1))
+tf = txBox.text_frame
+
+# 待处理的文本
+text = "这是标楷体和Arial的测试 Test"
+
+# 定义两种字体
+chinese_font = '標楷體'
+english_font = 'Arial'
+
+# 创建新的段落
+p = tf.add_paragraph()
+
+# 初始化变量
+last_lang = None
+run = None
+
+# 遍历文本中的每个字符
+for char in text:
+    # 检查字符是中文还是其他
+    is_chinese = '\u4e00' <= char <= '\u9fff'
+    lang = 'chinese' if is_chinese else 'english'
+    
+    # 如果语言改变了，或者我们还没有创建任何文本运行
+    if lang != last_lang or run is None:
+        # 创建新的文本运行
+        run = p.add_run()
+        run.font.size = Pt(20)
+        run.font.name = chinese_font if is_chinese else english_font
+
+    # 将字符添加到当前文本运行
+    run.text += char
+    
+    # 记录当前字符的语言
+    last_lang = lang
+
+# 保存PPT文档
+prs.save('test.pptx')
+def set_cell_font_size(cell,size,word_name):
+    paragraph=cell.text_frame.paragraphs[0]
+    paragraph.alignment = PP_ALIGN.CENTER
+    run=paragraph.runs[0]
+    run.font.size=Pt(size)
+    run.font.name = word_name   # 字体类型
+    run.font.bold = True   # 字体类型
+    run.font.color.rgb=RGBColor(0,0,0)
+
