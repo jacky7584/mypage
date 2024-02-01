@@ -42,12 +42,11 @@ def set_cell_font(cell, size, bold=False, color=RGBColor(0,0,0), align=PP_ALIGN.
     # 获取单元格中的文本
     cell_text = cell.text_frame.text
 
-    # 清除单元格中的所有段落
-    cell.text_frame.clear()  # 清除现有内容
-
-    # 添加新的段落
-    p = cell.text_frame.add_paragraph()
+    # 获取或创建段落
+    tf = cell.text_frame
+    p = tf.paragraphs[0] if tf.paragraphs else tf.add_paragraph()
     p.alignment = align
+    p.clear()  # 清除现有内容
 
     # 初始化变量
     last_lang = None
