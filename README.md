@@ -43,7 +43,7 @@ def set_cell_font(cell, size, bold=False, color=RGBColor(0,0,0), align=PP_ALIGN.
     cell_text = cell.text_frame.text
 
     # 清除单元格中的所有段落
-    cell.text = ""
+    cell.text_frame.clear()  # 清除现有内容
 
     # 添加新的段落
     p = cell.text_frame.add_paragraph()
